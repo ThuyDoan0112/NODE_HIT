@@ -1,16 +1,12 @@
 const express = require("express");
-
-const Course = require("../Models/coursesModel");
-
-const courseRouter = express.Router();
-
-//get all courses
-const getAllcourses = async (req, res) => {
+const User = require("../models/userModel");
+//get all users
+const getAllUsers = async (req, res) => {
   try {
-    const courses = await Course.find();
+    const users = await User.find();
     res.status(200).json({
       status: "success",
-      data: courses,
+      data: users,
     });
   } catch (err) {
     res.status(404).json({
@@ -20,13 +16,13 @@ const getAllcourses = async (req, res) => {
   }
 };
 //get a user
-const getCourse = async (req, res) => {
+const getUser = async (req, res) => {
   try {
     let { id } = req.params;
-    const course = await Course.findById(id);
+    const user = await User.findById(id);
     res.status(200).json({
       status: "success",
-      data: course,
+      data: user,
     });
   } catch (err) {
     res.status(404).json({
@@ -36,13 +32,12 @@ const getCourse = async (req, res) => {
   }
 };
 //created
-const createCourse = async (req, res) => {
+const createUser = async (req, res) => {
   try {
-    const newCourse = await Course.create(req.body);
-
-    res.status(200).json({
+    const newUser = await User.create(req.body);
+    res.status(201).json({
       status: "success",
-      data: newCourse,
+      data: newUser,
     });
   } catch (err) {
     res.status(400).json({
@@ -52,15 +47,16 @@ const createCourse = async (req, res) => {
   }
 };
 //update
-const updateCourse = async (req, res) => {
+const updateUser = async (req, res) => {
   try {
     let { id } = req.params;
-
-    const course = await Course.findByIdAndUpdate(id, req.body);
+    const user = await User.findByIdAndUpdate(id, req.body);
 
     res.status(200).json({
       status: "success",
-      data: course,
+      data: {
+        user,
+      },
     });
   } catch (err) {
     res.status(404).json({
@@ -70,11 +66,10 @@ const updateCourse = async (req, res) => {
   }
 };
 //delete
-const deleteCourse = async (req, res) => {
+const deleteUser = async (req, res) => {
   try {
     let { id } = req.params;
-    const course = await Course.findByIdAndDelete(id);
-
+    const user = await User.findByIdAndDelete(id);
     res.status(204).json({
       status: "success",
       data: null,
@@ -86,11 +81,10 @@ const deleteCourse = async (req, res) => {
     });
   }
 };
-
 module.exports = {
-  getAllcourses,
-  getCourse,
-  createCourse,
-  updateCourse,
-  deleteCourse,
+  getAllUsers,
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
 };
