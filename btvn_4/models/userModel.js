@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const validator = require("validator");
+const bcrypt = require("bcryptjs");
 const Post = require("./postModel");
 
 const userSchema = new Schema({
@@ -27,6 +28,14 @@ const userSchema = new Schema({
     default: "user",
   },
   posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
+});
+
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+
+  this.password = await bcrypt.hash(this.password, 12);
+
+  next();
 });
 
 const User = mongoose.model("User", userSchema);

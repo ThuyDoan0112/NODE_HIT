@@ -1,7 +1,8 @@
 const User = require("../models/userModel");
 const userRouter = require("../routes/userRouter");
+const catchAsync = require("../utils/catchAsync");
 
-exports.authorization = async (req, res, next) => {
+exports.authorization = catchAsync(async (req, res, next) => {
   const { id } = req.query;
 
   const user = await User.findById(id);
@@ -18,4 +19,4 @@ exports.authorization = async (req, res, next) => {
     });
   }
   next();
-};
+});
