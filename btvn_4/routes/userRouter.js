@@ -1,26 +1,38 @@
 const express = require("express");
 const userController = require("../controllers/userCotroller");
+const authController = require("../controllers/authController");
+
 const authMidderware = require("../midderwares/authMidderware");
 
 const userRouter = express.Router();
 
 userRouter
   .route("/")
-  .get(authMidderware.authorization, userController.getAllUsers)
+  .get(authMidderware.protect, userController.getAllUsers)
   .post(userController.createUser);
 
-userRouter
-  .route("/getUsersAge")
-  .get(authMidderware.authorization, userController.getUsersAge);
+userRouter.route("/login").post(authController.login);
 
-userRouter
-  .route("/getUsersName")
-  .get(authMidderware.authorization, userController.getUsersName);
+userRouter.route("/getUsersAge").get(
+  authMidderware.protect,
+  // authMidderware.authorization,
+  userController.getUsersAge
+);
+
+userRouter.route("/getUsersName").get(
+  authMidderware.protect,
+  // authMidderware.authorization,
+  userController.getUsersName
+);
 
 userRouter
   .route("/:id")
-  .get(userController.getUser)
-  .put(userController.updateUser)
-  .delete(authMidderware.authorization, userController.deleteUser);
+  .get(authMidderware.protect, userController.getUser)
+  .put(authMidderware.protect, userController.updateUser)
+  .delete(
+    authMidderware.protect,
+    // authMidderware.authorization,
+    userController.deleteUser
+  );
 
 module.exports = userRouter;
