@@ -4,6 +4,9 @@ const AppError = require("../utils/appError");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
+exports.getLogin = (req, res, next) => {
+  res.render("login.ejs");
+};
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
   console.log(email, password);
@@ -26,7 +29,9 @@ exports.login = catchAsync(async (req, res, next) => {
     token,
   });
 });
-
+exports.getResetPassword = (req, res, next) => {
+  res.render("forgotPassword.ejs");
+};
 exports.forgotPassword = async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
 

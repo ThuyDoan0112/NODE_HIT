@@ -3,18 +3,15 @@ const ejs = require("ejs");
 const userController = require("../controllers/userCotroller");
 const authController = require("../controllers/authController");
 
-const authMidderware = require("../midderwares/authMidderware");
+const authMidderware = require("../middlerwares/authMiddlerware");
 
 const userRouter = express.Router();
 
-userRouter.get("/login", (req, res) => {
-  res.render("login.ejs");
-});
-
+userRouter.get("/login", authController.getLogin);
 userRouter.route("/login").post(authController.login);
-userRouter.get("/forgotPassword", (req, res) => {
-  res.render("forgotPassword.ejs");
-});
+
+userRouter.get("/forgotPassword", authController.getResetPassword);
+
 userRouter.post("/forgotPassword", authController.forgotPassword);
 userRouter.patch("/resetPassword/:token", authController.resetPassword);
 

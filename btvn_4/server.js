@@ -10,7 +10,7 @@ const postRouter = require("./routes/postRouter");
 const codeRouter = require("./routes/codeRouter");
 
 const AppError = require("./utils/appError");
-const globalErrorHandler = require("./midderwares/errorMidderware");
+const globalErrorHandler = require("./middlerwares/errorMiddlerware");
 
 const app = express();
 const port = 3000;
