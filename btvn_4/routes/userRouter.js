@@ -12,7 +12,9 @@ userRouter.get("/login", (req, res) => {
 });
 
 userRouter.route("/login").post(authController.login);
-
+userRouter.get("/forgotPassword", (req, res) => {
+  res.render("forgotPassword.ejs");
+});
 userRouter.post("/forgotPassword", authController.forgotPassword);
 userRouter.patch("/resetPassword/:token", authController.resetPassword);
 
