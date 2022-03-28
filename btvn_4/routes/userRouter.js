@@ -1,4 +1,5 @@
 const express = require("express");
+const ejs = require("ejs");
 const userController = require("../controllers/userCotroller");
 const authController = require("../controllers/authController");
 
@@ -6,12 +7,19 @@ const authMidderware = require("../midderwares/authMidderware");
 
 const userRouter = express.Router();
 
+userRouter.get("/login", (req, res) => {
+  res.render("login.ejs");
+});
+
+userRouter.route("/login").post(authController.login);
+
+userRouter.post("/forgotPassword", authController.forgotPassword);
+userRouter.patch("/resetPassword/:token", authController.resetPassword);
+
 userRouter
   .route("/")
   .get(authMidderware.protect, userController.getAllUsers)
   .post(userController.createUser);
-
-userRouter.route("/login").post(authController.login);
 
 userRouter.route("/getUsersAge").get(
   authMidderware.protect,
